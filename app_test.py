@@ -1,6 +1,7 @@
 import tensorflow as tf
 
 from app import memory
+from app import HuberLoss
 from app import DQNAdapter
 from app import DQNFlyweight
 from collections import deque
@@ -50,6 +51,12 @@ class AppMemoryAllocationTestCase(tf.test.TestCase):
 	def testDequeType(self):
 		with self.test_session():
 			self.assertEqual(type(memory.alloc), deque)
+
+class AppHuberLoss(tf.test.TestCase):
+	def testProduceError(self):
+		with self.test_session():
+			loss_fn = HuberLoss(10, 5)
+			self.assertEqual(loss_fn.produce_error(), -5)
 
 if __name__ == '__main__':
 	tf.test.main()
